@@ -73,7 +73,7 @@ padding:40px 28px;margin:12px 0 28px;box-shadow:0 20px 60px rgba(0,0,0,.8)}
 /* ======== EDIT YOUR PAGE HERE ======== */
 const CONFIG = {
   name: "My love",                 // her name
-  from: "Your name",               // your name (signature)
+  from: "Shiven",               // your name (signature)
   introLine: "Happy birthday,",
   introSub: "Before you get your present, I have a few questions.",
   introButton: "Fine, go on",
@@ -81,7 +81,8 @@ const CONFIG = {
     { q: "Do you miss me?", yes: "Yes, I miss you so much", reply: "I miss you more.",
       no: ["Liar.", "You miss me, admit it.", "That button is lying.", "I know you miss me ♥", "Try again, my love.", "Not an option."] },
     { q: "I love you so much!!! How much do you love me?", yes: "I love you so so so so much", reply: "I love you too ♥",
-      no: ["That's not how much.", "Wrong answer.", "Try a much bigger number.", "Not even close.", "You can do better than that ♥", "Nope, try again."] },
+      noLabel: "I don't",
+      no: ["Yes you do.", "Liar.", "That button is lying.", "I know you do ♥", "Try again, my love.", "Not an option."] },
     { q: "Am I your favourite person?", yes: "Obviously", reply: "Good answer.",
       no: ["Think about that again.", "Wrong, and you know it.", "Try again.", "Not an option, my love.", "Just say yes ♥"] },
     { q: "Do you think I'm the best boyfriend ever?", yes: "The best, and it's not close", reply: "I'm so lucky to have you.",
@@ -98,7 +99,6 @@ const CONFIG = {
   musicSrc: "",
   envelopeLine: "One last thing…",
   holdLine: "Hold the heart until we meet.",
-  letterTitle: "Happy Birthday",
   letter: [
     "Write your first paragraph here. Tell her what today means to you.",
     "Write your second paragraph here. Mention a memory you share, a place you'll visit together, something only the two of you understand.",
@@ -127,7 +127,7 @@ function question(i){
   const Q = CONFIG.questions[i];
   const dots = CONFIG.questions.map((_, k) => `<i class="${k < i ? 'f' : ''}"></i>`).join('');
   const s = el(`<div class="dots">${dots}</div><div class="frame"><h2>${Q.q}</h2></div>
-    <div class="row" id="row"><button class="yes" id="yes">${Q.yes}</button><button class="no" id="no">No</button></div><p class="hint" id="hint"></p>`);
+    <div class="row" id="row"><button class="yes" id="yes">${Q.yes}</button><button class="no" id="no">${Q.noLabel || "No"}</button></div><p class="hint" id="hint"></p>`);
   const yes = s.querySelector('#yes'), no = s.querySelector('#no'), hint = s.querySelector('#hint');
   let tries = 0, scale = 1;
   const dodge = (e) => {
@@ -246,7 +246,7 @@ function envelope(){
 function showLetter(){
   stopMusic();
   const paras = CONFIG.letter.map((t, k) => `<p style="animation-delay:${.6 + k * 1.1}s">${t}</p>`).join('');
-  const s = el(`<article class="letter"><h1 class="script">${CONFIG.letterTitle}, ${CONFIG.name}</h1>${paras}
+  const s = el(`<article class="letter">${paras}
     <p class="sig" style="animation-delay:${.6 + CONFIG.letter.length * 1.1}s">${CONFIG.sign}<br>${CONFIG.from}</p></article>`);
   scrollTo(0, 0);
 }
